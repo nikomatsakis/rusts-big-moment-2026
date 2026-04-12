@@ -2,14 +2,14 @@ class: center
 name: title
 count: false
 
-# Talk Template
+# Rust's big moment
 
-.p60[![Ferris](./images/ferris.svg)]
+.p60[![Tomei](./images/pesci-tomei-together.jpg)]
 
-Don't forget to update the title in [index.html](./index.html)
+## If...we don't screw up.
 
 .me[.grey[*by* **Nicholas Matsakis**]]
-.left[.citation[View slides at `https://nikomatsakis.github.io/talkrepo/`]]
+.left[.citation[View sl ides at `https://nikomatsakis.github.io/rusts-big-moment-2026/`]]
 
 ---
 
