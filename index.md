@@ -321,21 +321,19 @@ In some sense, what we asked for was a smarter computer. What we got was more li
 
 ???
 
----
-
-# Remember this?
-
-> Rust just lowers that bar. It's a lot easier to write correct Rust code. As a leader on the team, **I feel a lot safer when we have ~~less experienced engineers~~ contributing to these critical applications.**<br>
-> <br>
-> &mdash; Distinguished engineer working on cloud infrastructure services
-
 --
 
-.abspos.top250.left350.p100.bordered.big.red[coding agents]
+.abspos.top208.left145.p100.bordered.big.red.white-background[&nbsp;&nbsp;coding agents&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]
+
+.abspos.top310.left113.p100.bordered.big.red.white-background[Niko, indistinguished engineer not working on cloud infrastructure services]
 
 --
 
 .abspos.top180.left120.p100.rotate345.bordered[![Ubuntu](images/greg-brockman-tweet.jpg)]
+
+.footnote[
+    Yes, that Greg Brockman,co-founder and president of OpenAI
+]
 
 ???
 
@@ -380,7 +378,7 @@ Yes, they are -- but, well, let me play what comes next in the movie. And there 
 
 --
 
-![Crossing the Chasm](./images/crossing-the-chasm.png)
+.center[.p80[![Crossing the Chasm](./images/crossing-the-chasm.png)]]
 
 .footnote[
     Image from Wikipedia
@@ -697,6 +695,42 @@ The "Just add async" track is basically taking a shortcut to the experience I de
 
 .arrow.abspos.top276.left405.rotate90[![Arrow](images/Arrow.png)]
 
+--
+
+name:beyondamp
+
+.abspos.top484.left333.p100.purple.white-background[Beyond the `&`]
+
+.arrow.abspos.top436.left316.rotate250[![Arrow](images/Arrow.png)]
+
+
+---
+
+# Beyond the `&`
+
+.center[.p60[![Beyond the `&` roadmap](./images/beyond-the-ampersand-table.png)]]
+
+.footnote[
+    https://rust-lang.github.io/rust-project-goals/2026/roadmap-beyond-the-ampersand.html
+]
+
+???
+
+I won't talk in detail but work is underway there as well, thanks to Alice Ryhl, Benno Lossin, Ding Xiang Fei, Yoshua Wuyts and others. This is a longer-term path, the plan for this year is basically to narrow the design space to a single preferred design.
+
+---
+
+template: beyondamp
+
+--
+
+name: jaamvp
+
+.abspos.top484.left554.p100.purple.white-background[Just add async]
+
+.arrow.abspos.top430.left541.rotate235[![Arrow](images/Arrow.png)]
+
+
 ---
 
 # Just add async
@@ -801,7 +835,7 @@ Myself, I think `.box` meets that criteria.
 
 ---
 
-# Unlocking `tower` 1.0
+# Tower 0.3
 
 ```rust
 pub trait Service<Request> {
@@ -833,7 +867,7 @@ Tell you what, rather than explain this trait, let me just skip to the next slid
 
 ---
 
-# Unlocking `tower` 1.0
+# Tower 1.0?
 
 ```rust
 trait Service<Request> {
@@ -875,11 +909,19 @@ trait LocalService<Request> {
 trait Service<Request> = LocalService<Request, call(..): Send>;
 ```
 
+???
+
+So in reality the traits we want *probably* looks like this.
+
 ---
 
 template: localservice
 
 .arrow.abspos.top100.left228.rotate130[![Arrow](images/Arrow.png)]
+
+???
+
+You have the `LocalService`, which means a service that is only compatible with single-threaded runtimes. This is needed particularly in higher-performance setups or in environments like mobile or embedded where they are avoiding threads and work-stealing.
 
 ---
 
@@ -887,63 +929,48 @@ template: localservice
 
 .arrow.abspos.top382.left185.rotate130[![Arrow](images/Arrow.png)]
 
+???
+
+Then you have a convenient alias, `Service`, for the more common case of something that is compatible with multithreaded runtimes. This is typically the "default".
+
 ---
 
 template: localservice
 
 .arrow.abspos.top441.left594.rotate230[![Arrow](images/Arrow.png)]
 
+???
+
+And we define this `Service` trait via an *alias*, so that people who want to be compatible with both can implement `LocalService` and automatically support `Service` if they are thread-safe but not otherwise.
+
 ---
 
 # The whole path
 
-Getting there to the ideal Tower 1.0 state requires a few features:
+Getting there to the ideal Tower 1.0 state requires a few features...
 
 * dyn dispatch for async fns (eep)
 * return type notation (implemented and ~ready)
 * implementable trait aliases (under discussion)
 
-So... that's what I want to do.
+...
 
 ???
 
-To *really* do it 
+Yes, so, to really get this right involves a handful of features. And the good news is that I think we could get these done this year. But it's going to take some concentrated effort.
 
 ---
+template: jaamvp
 
-# Going beyond the `&`
+--
 
-.center[![MVP](./images/MVP.png)]
+.arrow.abspos.top513.left601.rotate235[![Arrow](images/Arrow.png)]
 
-.abspos.top330.left408.p100.small.purple.white-background[AND]
-
-.arrow.abspos.top276.left405.rotate90[![Arrow](images/Arrow.png)]
-
-???
-
-But remember, our goal is to both go deep and to go wide.
-
----
-
-# In-place init
-
-.center[.p60[![in-place-init table](./images/in-place-init.png)]]
-
-.footnote[
-    https://rust-lang.github.io/rust-project-goals/2026/in-place-init.html
-]
+.abspos.top572.left612.purple.white-background[Unblocks the<br>ecosystem]
 
 ???
 
-I won't talk in detail but work is underway there as well, thanks to Alice Ryhl, Benno Lossin, Ding Xiang Fei, Yoshua Wuyts and others. This is a longer-term path, the plan for this year is basically to narrow the design space to a single preferred design.
-
----
-
-# More ergonomic closures and futures
-
-???
-
-Just in passing, I want to mention something else that's likely coming soon.
+This brings me to my key point. When we look at this choice, between the vertical spike and the horizontal layer, the vertical spike has a key advantage: done right, it unblocks the ecosystem. People are not going to call their crates 1.0 unless they have confidence that they won't have to rewrite them. And we need to get there, that's job number 1. And part of *that* is making sure that it solves 100% of the problem for *somebody* in a way that will scale to *everyboy*.
 
 ---
 
@@ -953,14 +980,17 @@ Just in passing, I want to mention something else that's likely coming soon.
 * **Using the right crates... and only the right crates**
 * Funding maintenance across the Rust universe
 
+---
+
+
 
 ---
 
 # Challenges ahead
 
 * Async experience
-* **Using the right crates... and only the right crates**
-* Maintaining the ecosystem
+* Using the right crates... and only the right crates
+* **Funding maintenance across the Rust universe**
 
 ---
 
