@@ -265,6 +265,10 @@ mark,
   width: 40%;
 }
 
+.p40 img {
+  width: 40%;
+}
+
 .p100 img {
   width: 100%;
   height: auto;
@@ -722,4 +726,20 @@ blockquote p {
 .thought.bubble3 {
   height: 25px;
   width: 25px;
+}
+
+.red {
+  color: red;
+}
+
+.purple {
+  color: purple;
+}
+
+.big {
+  font-size: 150%;
+}
+
+.white-background {
+  background-color: white;
 }

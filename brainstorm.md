@@ -16,6 +16,15 @@ The danger isn't external. It's us. Rust is siloed — the project, the ecosyste
 
 ## Chapter: Async — leave room for the long game, unblock the short term
 
+- async fn is more powerful than others
+- async fn is really limited
+- the "just add async" vision
+- async fn doesn't compose the way we expect
+- challenge:
+
+
+
+
 ### Status quo
 
 Async Rust has fueled massive adoption for network services. But it's widely seen as qualitatively harder than sync Rust — not just more complex, but a different kind of challenge. The problem isn't async concepts. The problem is that patterns which work in sync Rust don't transfer: traits, closures, recursion, scoped patterns, drop — each breaks in async in its own way, and the compiler doesn't guide you to the workarounds.
