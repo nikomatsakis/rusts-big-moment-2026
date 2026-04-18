@@ -13,6 +13,16 @@ count: false
 
 ---
 
+# What is that picture from?
+
+.center[![My cousin vinny](./images/giuliani.gif)]
+
+???
+
+Before I get started, let me answer a question. The theme of this tlak, in some sense, is taken from one of my favorite movies, My Cousin Vinny. I am confident many of you have not seen it. This is a mistake you should rectify. If you take nothing else fro this talk, let it be that you ought to go and watch My Cousin Vinny.
+
+---
+
 # Who am I?
 
 --
@@ -970,7 +980,7 @@ template: jaamvp
 
 ???
 
-This brings me to my key point. When we look at this choice, between the vertical spike and the horizontal layer, the vertical spike has a key advantage: done right, it unblocks the ecosystem. People are not going to call their crates 1.0 unless they have confidence that they won't have to rewrite them. And we need to get there, that's job number 1. And part of *that* is making sure that it solves 100% of the problem for *somebody* in a way that will scale to *everyboy*.
+This brings me to my key point. When we look at this choice, between the vertical spike and the horizontal layer, the vertical spike has a key advantage: done right, it unblocks the ecosystem. People are not going to call their crates 1.0 unless they have confidence that they won't have to rewrite them. And we need to get there, that's job number 1. And part of *that* is making sure that it solves 100% of the problem for *somebody* in a way that will scale to *everyboy*.co
 
 ---
 
@@ -980,9 +990,160 @@ This brings me to my key point. When we look at this choice, between the vertica
 * **Using the right crates... and only the right crates**
 * Funding maintenance across the Rust universe
 
+???
+
+Talking about ecosystem, that brings us to the next point in our challenges: the crates.io ecosystem.
+
 ---
 
+# There's a crate for that
 
+> The crate ecosystem combined with the stability guarantees and the semantic versioning mean that it's the best grab and go ecosystem I've ever seen.<br>
+> <br>
+> &mdash; Computer science professor and programming language designer
+
+???
+
+Rust chose early to lean into crates.io and package management and that bet has paid off handsomely.
+
+crates.io currently has a wealth of crates across a bunch of different areas.
+
+
+---
+
+# There's a crate for that
+
+## ...but how do I find it?
+
+> The crates to use are sort of undiscoverable. There's a layer of tacit knowledge about what crates to use for specific things that you kind of gather through experience and through difficulty. Everyone's doing all of their research.<br>
+> <br>
+> &mdash; Web developer and conference speaker working on developer frameworks
+
+???
+
+But that choice has come with a cost. One of the most persistent pieces of feedback is that it's really hard to know what crates to use. This is particularly true in async, where many language gaps are overcome by using crates like `#[async_trait]` that we talked about earlier.
+
+As Rust usage grows, more and more new adopters are citing choosing dependencies as one of the hardest things for them when they get started.
+
+---
+
+# Getting started is easy
+
+???
+
+Another reason that a small standard library has been good for Rust is that it opened the floodgates to people who want to build their own libraries. This let us build out a much more full-featured -- and, frankly, much higher *quality* set of libraries than would have been possible if we'd tried to centralize everything into the standard library. As an open-source project, there's also a constant risk of overextending ourselves, and taking on more surface area than we can reliably maintain.
+
+--
+
+## Long-term maintenance is hard
+
+???
+
+At the same time, having things on crates.io creates its own maintenance challenges. Now we have a variety of crates, each with a few users and a few maintainers. Centralizing people onto a narrower set of things would make them easier to maintain.
+
+---
+
+# One stdlib won't work for Rust
+
+Too much variation in requirements.
+
+???
+
+All told, I don't believe that having a large standard library will work for Rust. Just look at what we saw earlier, with the tension that arose from servers vs embedded -- Rust serves an awful lot of requirements, and it's very challenging to meet them. This is a place where you want to lean on the open-source concept, let people build out libraries that meet *their* specific needs (and those of others like them).
+
+But when, what are we to do?
+
+---
+
+# One stdlib won't work for Rust
+
+One open-source org can't know everything
+
+???
+
+But there's another reason that one stdlib won't work for Rust -- I just don't believe that you can have one open-source org that knows enough about every domain to make smart choices.
+
+Those of us who work on Rust, we know compilers and development tools. But we're not experts on networking. Or embedded devleopment. Or any of a number of other things.
+
+---
+
+# Not this again
+
+.center[.p80[![Ferris sweats](./images/ferris-sweats.png)]]
+
+.abspos.top220.left200.p100.bordered.rotate350.small[Standard]
+
+.abspos.top200.left285.p100.bordered.rotate350.small[Ecosystem]
+
+???
+
+So basically we're in one of those moments. The world has two traditional approaches -- either we ship a stdlib, and accept the compromises, or we lean on the ecosystem, and accept that things will be hard to find.
+
+---
+
+# Solution: battery packs
+
+**Battery pack:** a curated set of crates targeting a specific domain or meeting some other criteria.
+
+Includes cross-cutting documentation, examples, and project templates.
+
+???
+
+So lately I, along with some others, have been working on an idea that I think could be the way out. We're calling them *battery packs*. A battery pack is basically a set of crates brought together, along with shared documentation.
+
+I am imagining that we'll have battery packs for all sorts of common purposes -- for example, a CLI battery pack, or one for network services. But battery packs are intentionally open-ended. Anybody can make one and for any reason. Maybe you make want to make one for "all crates that use a GPL license" or "all crates starting with the letter `z`". That's your perogative.
+
+---
+
+# Proposal: battery packs
+
+
+Examples available now:
+
+* A *CLI battery pack* that assembles a number of nifty crates for authoring CLIs (e.g., clap)
+* An *error handling battery pack* that gives an opinionated view on how to manage errors (e.g., anyhow)
+
+Anybody can make a battery pack!
+
+???
+
+Me and some others have been working on a new idea that we call *battery packs*.
+
+A battery pack is a curated collection of crates together with documentation and examples. The idea is that you can install a battery pack into your crate and get going.
+
+The idea of battery packs was inspired by *starter packs* on bluesky, which are a way for people to assemble a good list of people for you to follow. Battery packs take that and bring it to crates.
+
+---
+
+# How to use it
+
+Install the `cargo bp` subcommand:
+
+```bash
+> cargo install cargo-bp
+```
+
+And then you can list the available battery packs: 
+
+```bash
+cargo bp ls
+```
+
+---
+
+# A battery pack is a crate
+
+![cli battery pack](./images/docs-rs-cli-battery-pack.png)
+
+---
+
+# Adding to your project
+
+When you run, say:
+
+```bash
+cargo bp add cli
+```
 
 ---
 
