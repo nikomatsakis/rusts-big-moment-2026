@@ -1057,7 +1057,9 @@ But when, what are we to do?
 
 # One stdlib won't work for Rust
 
-One open-source org can't know everything
+"Picking winners" is high-risk:
+
+One open-source org can't know everything.
 
 ???
 
@@ -1081,7 +1083,7 @@ So basically we're in one of those moments. The world has two traditional approa
 
 ---
 
-# Solution: battery packs
+# One idea: battery packs
 
 **Battery pack:** a curated set of crates targeting a specific domain or meeting some other criteria.
 
@@ -1089,29 +1091,13 @@ Includes cross-cutting documentation, examples, and project templates.
 
 ???
 
-So lately I, along with some others, have been working on an idea that I think could be the way out. We're calling them *battery packs*. A battery pack is basically a set of crates brought together, along with shared documentation.
+So lately I, along with some others, have been working on an idea that I think could be the way out. We're calling them *battery packs*.
+
+A battery pack is basically a set of crates selected for some common purpose. When you add a battery pack to your project, you can then go ahead and add libraries from that battery pack as normal. The battery pack *itself* is transparent, you still write your Rust code in the usual way.
 
 I am imagining that we'll have battery packs for all sorts of common purposes -- for example, a CLI battery pack, or one for network services. But battery packs are intentionally open-ended. Anybody can make one and for any reason. Maybe you make want to make one for "all crates that use a GPL license" or "all crates starting with the letter `z`". That's your perogative.
 
----
-
-# Proposal: battery packs
-
-
-Examples available now:
-
-* A *CLI battery pack* that assembles a number of nifty crates for authoring CLIs (e.g., clap)
-* An *error handling battery pack* that gives an opinionated view on how to manage errors (e.g., anyhow)
-
-Anybody can make a battery pack!
-
-???
-
-Me and some others have been working on a new idea that we call *battery packs*.
-
-A battery pack is a curated collection of crates together with documentation and examples. The idea is that you can install a battery pack into your crate and get going.
-
-The idea of battery packs was inspired by *starter packs* on bluesky, which are a way for people to assemble a good list of people for you to follow. Battery packs take that and bring it to crates.
+Battery packs also have shared documentations, examples, and starter templates, so e.g. a CLI battery pack could give you a template for a basic project with an argument parsing setup.
 
 ---
 
@@ -1137,19 +1123,34 @@ cargo bp ls
 
 ---
 
-# A battery pack is a crate
+# Wait, does this change anything?
 
-![cli battery pack](./images/docs-rs-cli-battery-pack.png)
+.p80.center[![Skeptical](./images/tomei-skeptical.jpg)]
+
+???
+
+I know what you're thinking. If anybody can make a battery pack, how does this help?
 
 ---
 
-# Adding to your project
+# Step 2: Rust Commerical Network
 
-When you run, say:
+???
 
-```bash
-cargo bp add cli
-```
+The answer to that comes from the Rust Foundation. Lori Lorusso has been working to organize something called the Rust Commerical Network. The idea is to get together Rust users across domains and to help them co-organize. And one thing I imagine them doing is designing battery packs for their respective domains.
+
+So, for example, we might have one group for people building network services. They can collectively compare the libraries they are all using and issue a battery pack that covers those crates.
+
+One of the cool things about this is that this battery pack doesn't have to be the only one. I imagine that such a group might publish a battery pack focused on "server-level networking", that includes tokio, tower, axum, etc.
+
+But I imagine we'll have another that focuses on embedded-level networking, or perhaps Rust-for-Linux development.
+---
+
+# Lean on existing authorities
+
+???
+
+The point is, battery packs allow for groups to get together and make recommendations. If those aren't good, nobody has to listen. But when those groups are a respected authority, I think people will.
 
 ---
 
@@ -1159,12 +1160,111 @@ cargo bp add cli
 * Using the right crates... and only the right crates
 * **Funding maintenance across the Rust universe**
 
+???
+
+OK, so, we saw now how we need to unstick ourselves by building out MVPs and simultaneously working on details.
+
+And we've seen how we need to solve the problem of making recommendations, but hopefully without forcing ourselves to pick a single winner.
+
+So now let's talk about the hardest problem of them all: money.
+
 ---
 
-# Async language + ecosystem maturity
+# You've all seen the comic
+
+.center[.p40[![xkcd](./images/xkcd-dependency.png)]]
 
 ???
 
-One of the really cool things about Rust is that we ship a small standard library. This has 
+I'm sure all of you by now have seen this classic xkcd comic. Open source has transformed the way everybody builds software but we still haven't really cracked the nut on how to fund it. The reality is that the task of maintaining an open-source library is often fairly thankless. And while some companies sponsor their dependencies, most don't.
+
+For that matter, the same applies to official Rust development tools. Particularly for smaller tools, like rustfmt, the maintainers are often part-time volunteers. The result is that while they're able to land smaller changes, the codebase never sees the larger refactors that are needed, and it becomes harder and harder to keep things going.
 
 ---
+
+# The Rust Foundation can help
+
+???
+
+Fortunately, this is why we have a Foundation. The Foundation Staff are keen to help and, together with Rust project people, we've been working on setting up a variety of structures. These plans are all still coming together, but I think we're headed in a good place.
+
+---
+
+# Rust Commercial Network and Ecosystem Fund
+
+Fund your dependencies!
+
+???
+
+The plan starts with the Rust Commerical Network I mentioned earlier. The idea is that when a given group designates a battery pack of common dependencies, that same group can start collecting funds from its members and others to fund those dependencies. They can also fund Foundation staff or contracting to help out with maintenance and feature development.
+
+For a company, this is a win-win. You get a quality library to build on, but you don't have to foot the entire cost, you share that cost with everyone else.
+
+---
+
+# Rust Foundation Maintainer Fund
+
+![RFMF blogpost](./images/rfmfblog.png)
+
+--
+
+.abspos.top257.left83.bordered.width800px[![RFMF RFC](./images/rfmfrfc.png)]
+
+
+???
+
+The RCN and ecosystem fund is meant to target crates.io libraries. But what about the core Rust toolchain itself? The Foundation recently announced plans to launch a Maintainer Fund aimed at just this problem. The plans for this fund have been co-developed with the Rust project, and there is an open RFC that lays out how it's going to work.
+
+The basic idea is that we'll be collecting funds to hire *Maintainers in Residence*, full time -- or nearly full time -- people paid to take care of parts of the Rust project.
+
+---
+
+# RustNL Maintainer Team
+
+.center[.p60[![RustNL Maintainer Team](./images/rustnlmt.png)]]
+
+.center[Want to support RustNL? https://rustnl.org/fund/]
+
+???
+
+And I'd be remiss if I didn't mention another exciting effort, the RustNL Maintainer Team. RustNL is a nonprofit based in the Netherlands devoted to supporting Rust community, and they've assembled a team of maintainers to work on the Rust project as well.
+
+---
+
+# Rust roadmaps
+
+.center[.p60[![Roadmaps](./images/roadmaps.png)]]
+
+.footnote[
+    https://rust-lang.github.io/rust-project-goals/2026/roadmaps.html
+]
+
+???
+
+And finally, we've been building out a new system called the Rust Project Roadmaps. You've actually seen some of them through the talk, like Just Add Async or Beyond the `&`.
+
+Each roadmap is a set of steps needed to achieve an important goal. They make for fun reading, but the plan is also to give people and companies the ability to *sponsor* a roadmap, with those funds going to support both basic maintenance, through the Rust Foundation Maintainer's Fund, and also work on the feature itself. The hope is that this Roadmap system will let us move more quickly towards evolving Rust.
+
+---
+
+# Thanks
+
+.center[.p60[![Mona proud](./images/vinny-satisfied.gif)]]
+
+???
+
+It's been a real pleasure speaking here today, and I want to give thanks to the organizers for having me.
+
+---
+
+# In summary...
+
+* Unblock the ecosystem with Just Add Async "MVP"
+    * While also exploring foundations
+
+* Organize Rust users into the Rust Commerical Network
+    * Recommend Battery Packs per domain
+
+* Collect and focus sponsorship
+    * On the core Rust project for maintenance and goals
+    * And on the ecosystem
