@@ -145,7 +145,7 @@ Go and Swift had been announced just a few years before, and each of them had ba
 
 ???
 
-All of this reminds me of a scene from My Cousin Vinny. Remember I told you that Vinny is a lawyer trying to save his cousin from false charges of murder.
+All of this reminds me of a scene from My Cousin Vinny. In the movie, Vinny is a lawyer trying to save his cousin from false charges of murder.
 
 There's a point where he realizes what he's up against. It's his first trial and it's the big leagues: if he screws up, his cousin is going to get the death penalty.
 
@@ -161,7 +161,7 @@ At this moment, his girlfriend Mona gives him a pep talk. Here, listen.
 
 ???
 
-For us, that survey was the StackOverflow survey in 2016. That year, and every year since then, Rust has toped the "most loved" category, meaning the percentage of developers using the language who want to keep using it.
+For us, that comforting reassurance came from the StackOverflow survey in 2016. That year, and every year since then, Rust has toped the "most loved" category, meaning the percentage of developers using the language who want to keep using it.
 
 You gotta understand what that means: there could be 3 people using something, but if all 3 want to keep using it, you get to 100%. So it doesn't mean you're a success.
 
@@ -227,8 +227,10 @@ I hear from a lot of folks who started using Rust on the *hardest part* of their
 
 We see this in a lot of places. One really nice version of it came out of AWS.
 
-Aurora DSQL is one of our newly launched services. It's written 100% in Rust, but what's interesting is that it wasn't always this way.
-If you read the post, you'll see that they started building just the data plane, with the control plane in Kotlin and the Postgres extensions in C.
+Aurora DSQL is one of our newly launched services. It's written 100% in Rust,
+but what's interesting is that it wasn't always this way.
+If you read the post, you'll see that they started building just the data plane,
+with the control plane in Kotlin and the Postgres extensions in C.
 But eventually they rewrote it to be top-to-bottom in Rust -- and that includes the internal ops web page.
 
 I took two lessons from this. First, that the fundamentals of Rust are solid. We are delivering a great platform for building foundational software.
@@ -331,11 +333,17 @@ In some sense, what we asked for was a smarter computer. What we got was more li
 
 ???
 
+But that's interesting, right? I saw LLMs are like an inexperienced human, but you may remember -- that's one of the things that makes Rust really helpful.
+
 --
 
 .abspos.top208.left145.p100.bordered.big.red.white-background[&nbsp;&nbsp;coding agents&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]
 
 .abspos.top310.left113.p100.bordered.big.red.white-background[Niko, indistinguished engineer not working on cloud infrastructure services]
+
+???
+
+This explains why Rust is becoming a popular choice for agentic development.
 
 --
 
@@ -347,11 +355,7 @@ In some sense, what we asked for was a smarter computer. What we got was more li
 
 ???
 
-Remember this quote? I was arguing that, yeah, Rust took time to learn, but once you learned it, you could move faster. The reason was that the compiler gave you *guardrails* -- it caught mistakes early and helped you to learn.
-
-All of those arguments apply equally well, better really, to agents. And this is part of why you are seeing a lot of people adopt Rust.
-
-And why you have the CEO of OpenAI tweeting about it.
+You don't have to take it from me though, here's the co-founder and president of OpenAI saying the same thing.
 
 ---
 
@@ -361,15 +365,13 @@ And why you have the CEO of OpenAI tweeting about it.
 
 ???
 
-OK, you can all breath a sigh of relief. I'm not here to advocate for AI. I'm just telling you the facts I see in terms of what's happening in the industry.
+So yeah, let's face it, AI is coming. But I'm not really here to talk about AI. I'm just telling you the facts I see in terms of what's happening in the industry.
 
 ---
 
 # Rust's big moment
 
 .center[.p60[![Tomei](./images/pesci-tomei-together.jpg)]]
-
-.center[<audio controls src="./images/you-know-what-i-think.mp3"></audio>]
 
 .center[<audio controls src="./images/if-you-don't-fuck-up-bg0.mp3"></audio>]
 
@@ -386,8 +388,6 @@ Yes, they are -- but, well, let me play what comes next in the movie. And there 
 
 # If we don't screw up?
 
---
-
 .center[.p80[![Crossing the Chasm](./images/crossing-the-chasm.png)]]
 
 .footnote[
@@ -398,11 +398,11 @@ Yes, they are -- but, well, let me play what comes next in the movie. And there 
 
 What do I mean by if we don't screw up? Well, here's the thing.
 
-I perceive Rust to be at a phase change moment. Have you ever heard the term crossing the chasm? It marks the moment that a technology goes from "early adopters" into the mass market. It's not a precise thing, and I think Rust has been "mid-cross" for a long time -- but my take is that agentic coding is pushing into the early majority faster than ever.
+I perceive Rust to be at a phase change moment. A year or two ago, I would have said Rust was well on its way across the chasm -- that is, moving from those early adopters who are keen to try new things and into the mass market. But agentic development is basically pulling us across that chasm faster than ever, and catapulting us right into the middle of mainstream development.
 
-That's great, but it's putting more pressure on some persistent challenges that have dogged us for a long time. And I think addressing those challenges is going to mean some of the "common wisdom" that we have in Rust-land needs to be amended, do things a bit differently than we've done them in the best.
+That's great -- but it's also putting pressure on some persistent challenges that have dogged us for a long time. And the reason that those problems have dogged us is because, to solve them, we really have to do things a bit differently than we've done them before.
 
-The good news though is that if we do, if we meet the moment, we can both make Rust the programming language and Rust the open-source community more inclusive and more supportive than ever. So let's talk about it.
+So let's get into it.
 
 ---
 
@@ -560,6 +560,8 @@ Right now, we support inherent functions and a rather limited subset of traits.
 
 ???
 
+One of the challenges here is that the same thing that makes async great is part of what makes it so challenging: it has to work across a number of domains, with very different requirements.
+
 ---
 
 # Example: async fn in trait
@@ -578,17 +580,46 @@ impl MessageProcessor for Processor2 {
 }
 ```
 
+???
+
+Let me give you an example, async functions in traits. Here's a basic example of a trait, a Rust interface, that defines an async function. You can see that this trait is implemented for two different types, Processor1 and Processor2.
+
 ---
+name: static1
 
 # When you call statically
 
 ```rust
 fn foo<P: MessageProcessor>(processor: &P) {
-    let future = processor.process(Message::new());
-    //  ------ The type of this will depend on `P`.
-    //         But for a given `P`, it's always the same.
+    processor.process(Message::new()).await;
 }
 ```
+
+--
+
+.arrow.abspos.top98.left200.rotate135[![Arrow](images/Arrow.png)]
+
+.abspos.top95.left237.purple.small[With generics, we have one copy of the fn per type]
+
+???
+
+So we start with a generic function. In Rust, when you have a generic function, we are going to make a specialized copy for each type you use it with. So that means if you call this with `Processor1`, you get one copy, and if you call it with `Processor2`, you get another.
+
+--
+ 
+.arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
+
+.abspos.top257.left375.purple.small[
+    and so we know which<br>function you are awaiting.<br><br>
+    We need that to know how much<br>
+    stack space you need.
+]
+
+???
+
+And when you call an async function, you have to await it, which indicates that it may perform I/O.
+
+The thing is, to compile an await call efficiently, we have to know exactly which function you are calling. In this case, that's fine, because we are specializing, so we can know whether you are calling processor 1 or 2.
 
 ---
 
@@ -596,12 +627,21 @@ fn foo<P: MessageProcessor>(processor: &P) {
 
 ```rust
 fn foo(processor: &dyn MessageProcessor) {
-    let future = processor.process(Message::new());
-    //  ------ Could be either the future for
-    //         Processor1 *or* Processor2 *or*
-    //         some other types we don't even know about!
+    processor.process(Message::new()).await;
 }
 ```
+
+--
+
+.arrow.abspos.top100.left256.rotate135[![Arrow](images/Arrow.png)]
+
+.abspos.top91.left298.purple.small[But with dyn, you get one copy of the fn<br>for *all* types]
+
+--
+
+.arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
+
+.abspos.top257.left375.purple.small[And so we don't know how<br>space to put on the stack!]
 
 ---
 
@@ -619,6 +659,10 @@ trait MessageProcessor {
     fn process(&self, message: Message) -> Box<dyn Future<Output = ()> + '_>;
 }
 ```
+
+--
+
+.arrow.abspos.top390.left473.rotate270[![Arrow](images/Arrow.png)]
 
 ---
 
@@ -772,8 +816,14 @@ fn foo<P: MessageProcessor>(processor: &P) {
     processor.process(Message::new()).await;
 }
 ```
-
+ 
 .arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
+
+.abspos.top257.left375.purple.small[
+    As before, we know which<br>
+    function you are awaiting<br>
+    and hence how much stack space you need.
+]
 
 ???
 
@@ -795,33 +845,20 @@ fn foo(processor: &dyn MessageProcessor) {
 
 .arrow.abspos.top196.left427.rotate270[![Arrow](images/Arrow.png)]
 
-???
-
-And *this* is how it would look when using dynamic dispatch.
-
-Here, the compiler can't know the right amount of storage, so you have to box it. And we make that explicit.
-
-The intention is that, eventually, this `.box` operator would be generalized to other options -- e.g., maybe boxing is ok, but you want to reuse the box across iterations, or maybe you want to use the stack.
-
-I'll be clear, this is controversial, in both directions.
-
-First, some people say we don't need the nice syntax, they're not convinced box carries its weight. Myself, I disagree, I think there'll always be a need for a convenient way to box things, even once we have other options, and that it'll often be the best choice.
-
-But on the flip side, some people feel that the syntax *isn't nice enough*. I think there's some truth there, I don't have time to talk in great detail now, but I would say that it's a solid step forward. It's the kind of salt where we can easily give an error message to get you, or your agent, unstuck. And it serves an important purpose: it preserves the **soul of Rust**.
-
----
-
-# The "Soul of Rust"?
-
-![Soul of Rust blog post](./images/soul-of-rust-blog.png)
-
-.footnote[
-    https://smallcultfollowing.com/babysteps//blog/2022/09/18/dyn-async-traits-part-8-the-soul-of-rust/
+.abspos.top238.left375.purple.small[
+    Put the future onto the heap,<br>
+    so it doesn't matter how big it is.
 ]
 
 ???
 
-The phrase soul of Rust comes from one of my blog posts some time back. But actually, it's a lesson that I keep relearning, and I like the way I framed it in a later post even better.
+And *this* is how it would look when using dynamic dispatch.
+
+The key point is, because the compiler doesn't know how much stack space you need, you have to box it. Now, eventually, the plan is that this only one of your options, you could make use of that stuff we saw earlier, like in-place init, to handle this in other ways. But we know that for a lot of users, boxing is going to be the right choice, so we'll make that work first, while we wait for the other designs to finish up.
+
+To be clear, this is the design I prefer, but a lot of people don't like. Some are not convinced it carries its weight, or would prefer it be written another way. We can have that discussion, but what I think is most important is that we find *some* solution that people can do, and quickly.
+
+Now another concern is that having to write `.box` is confusing and too low-level. I hear that, but I think it's a solid step forward, and it's the kind of thing where we can easily give you a clear error message. And it serves an important purpose: it preserves the **soul of Rust**.
 
 ---
 
@@ -832,16 +869,14 @@ The phrase soul of Rust comes from one of my blog posts some time back. But actu
 ## usable enough for a GUI
 
 .footnote[
-    https://smallcultfollowing.com/babysteps/blog/2025/10/13/ergonomic-explicit-handles/
+    https://smallcultfollowing.com/babysteps//blog/2022/09/18/dyn-async-traits-part-8-the-soul-of-rust/
 ]
 
 ???
 
-This framing comes from a post on ergonomic ref-counting, a topic I'll come to in a second, and I think it captures it. In my mind, the *soul of Rust* is that we square that circle -- we retain the kind of details and control you need in a kernel, but we do so in a way that is usable *enough* for a high-level app.
+This phrase comes from a blog post. Basically it alludes to this idea we talked about earlier, that Rust's magic comes from being low-level and explicit enough that you can use it anywhere, even the Linux kernel -- but high-level *enough* that you can use it for high-level code.
 
-And the word *enough* there is critical. It doesn't have to be perfect, but it has to be something where we can guide people to success with good error messages and a comprehensible explanation.
-
-Myself, I think `.box` meets that criteria.
+The key word there is **enough**. It doesn't have to be the best at everything, but it has to be tolerable. I think `.box` meets that criteria.
 
 ---
 
@@ -867,13 +902,9 @@ Tower 0.3's `Service` trait
 
 ???
 
-The reason I care so much about getting traits working right is that I want to unblock core traits in the ecosystem. I call this "unlocking tower 1.0".
+The reason I care so much about getting traits working right is that I want to unblock core traits in the ecosystem. Right now, a lot of core ecosystem crates are written in kind of wonky ways because of missing language features.
 
-Basically, what I want -- and we'll be talking more about this -- is that we have all the core libraries you need to build a service in a 1.0 state. By 1.0 I mean API stable, but I also mean: well-polished, well-supported, all ready to go.
-
-As a popular middleware trait, Tower's `Service` trait would obviously be part of that, but right now it is at 0.3. And looking at this definition, you can see why. What is all this? It's a lot. It's not Tower's fault, of course, the language is missing the capabilities they need to express this better.
-
-Tell you what, rather than explain this trait, let me just skip to the next slide.
+Tower is one example. It's a middleware crate, so you can have a stack of things that take turns processing some request. This is how the trait looks now, in version 0.3 -- kind of a mess!
 
 ---
 
@@ -893,14 +924,14 @@ trait Service<Request> {
 
 ???
 
-I won't speak for the Tokio folks here, but this is ~what I think the service trait wants to look like. Much simpler, right?
-
-So what's stopping us from doing it today?
-
-Well, the problem is, if they shipped this, you couldn't use it with `dyn` trait. And you'd also be stuck in some other details, such as if you needed a `Send` bound.
+This is more-or-less how it could look, if we had async fns in traits. Much better, right? But this version of the trait can't be adopted unless (a) most users are able to use it fully, including dynamic dispatch; and (b) the tower developers can have confidence that it won't have to change later.
 
 ---
 template: jaamvp
+
+???
+
+And this brings us back to the MVP diagram. The reason we have to do both is exactly this. We have to be confident that we understand the requirements of the complex cases, that's what Beyond-the-`&` gives us. And we have to have the ability for most users to use the design. That's what Just Add Async gives us.
 
 --
 
@@ -910,7 +941,7 @@ template: jaamvp
 
 ???
 
-This brings me to my key point. When we look at this choice, between the vertical spike and the horizontal layer, the vertical spike has a key advantage: done right, it unblocks the ecosystem. People are not going to call their crates 1.0 unless they have confidence that they won't have to rewrite them. And we need to get there, that's job number 1. And part of *that* is making sure that it solves 100% of the problem for *somebody* in a way that will scale to *everyboy*.co
+Together, we unblock the ecosystem, and allow it to evolve in parallel.
 
 ---
 
