@@ -743,3 +743,7 @@ blockquote p {
 .white-background {
   background-color: white;
 }
+
+#demo {
+  width: 80%;
+}

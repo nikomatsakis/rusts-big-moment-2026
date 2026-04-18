@@ -1067,7 +1067,7 @@ Those of us who work on Rust, we know compilers and development tools. But we're
 
 ---
 
-# Not this again
+# Here comes that meme again
 
 .center[.p80[![Ferris sweats](./images/ferris-sweats.png)]]
 
@@ -1115,7 +1115,7 @@ The idea of battery packs was inspired by *starter packs* on bluesky, which are 
 
 ---
 
-# How to use it
+# Try it out now!
 
 Install the `cargo bp` subcommand:
 
@@ -1128,6 +1128,12 @@ And then you can list the available battery packs:
 ```bash
 cargo bp ls
 ```
+
+---
+
+# Let's watch
+
+<div id="demo"></div>
 
 ---
 

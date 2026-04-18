@@ -5,12 +5,15 @@
   <title>Rust's Big Moment - Nicholas Matsakis</title>
   <meta charset="utf-8">
   <link href="custom.css" type="text/css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="asciinema-player.css" />
 </head>
 
 <body>
   <script src="remark-latest.min.js">
   </script>
   <script src="absolution.js">
+  </script>
+  <script src="asciinema-player.min.js">
   </script>
   <script>
     var slideshow = remark.create({
@@ -21,5 +24,12 @@
       highlightLines: true,
     });
     slideshow.on('afterShowSlide', absolution);
+    slideshow.on('afterShowSlide', function(slide) {
+      var demo = document.getElementById('demo');
+      if (demo && !demo.dataset.initialized && demo.closest('.remark-visible')) {
+        AsciinemaPlayer.create('./images/demo.cast', demo);
+        demo.dataset.initialized = 'true';
+      }
+    });
   </script>
 </body>
