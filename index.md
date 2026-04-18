@@ -19,7 +19,7 @@ count: false
 
 ???
 
-Before I get started, let me answer a question. The theme of this tlak, in some sense, is taken from one of my favorite movies, My Cousin Vinny. I am confident many of you have not seen it. This is a mistake you should rectify. If you take nothing else fro this talk, let it be that you ought to go and watch My Cousin Vinny.
+Before I get started, let me answer a question. The theme of this talk, in some sense, is taken from one of my favorite movies, My Cousin Vinny. I am confident many of you have not seen it. This is a mistake you should rectify. If you take nothing else from this talk, let it be that you ought to go and watch My Cousin Vinny.
 
 ---
 
