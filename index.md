@@ -900,76 +900,6 @@ So what's stopping us from doing it today?
 Well, the problem is, if they shipped this, you couldn't use it with `dyn` trait. And you'd also be stuck in some other details, such as if you needed a `Send` bound.
 
 ---
-
-name: localservice
-
-# `LocalService` vs `Service`
-
-```rust
-trait LocalService<Request> {
-    type Response;
-    type Error;
-
-    async fn call(
-        &self,
-        req: Request,
-    ) -> Result<Self::Response, Self::Error>;
-}
-
-trait Service<Request> = LocalService<Request, call(..): Send>;
-```
-
-???
-
-So in reality the traits we want *probably* looks like this.
-
----
-
-template: localservice
-
-.arrow.abspos.top100.left228.rotate130[![Arrow](images/Arrow.png)]
-
-???
-
-You have the `LocalService`, which means a service that is only compatible with single-threaded runtimes. This is needed particularly in higher-performance setups or in environments like mobile or embedded where they are avoiding threads and work-stealing.
-
----
-
-template: localservice
-
-.arrow.abspos.top382.left185.rotate130[![Arrow](images/Arrow.png)]
-
-???
-
-Then you have a convenient alias, `Service`, for the more common case of something that is compatible with multithreaded runtimes. This is typically the "default".
-
----
-
-template: localservice
-
-.arrow.abspos.top441.left594.rotate230[![Arrow](images/Arrow.png)]
-
-???
-
-And we define this `Service` trait via an *alias*, so that people who want to be compatible with both can implement `LocalService` and automatically support `Service` if they are thread-safe but not otherwise.
-
----
-
-# The whole path
-
-Getting there to the ideal Tower 1.0 state requires a few features...
-
-* dyn dispatch for async fns (eep)
-* return type notation (implemented and ~ready)
-* implementable trait aliases (under discussion)
-
-...
-
-???
-
-Yes, so, to really get this right involves a handful of features. And the good news is that I think we could get these done this year. But it's going to take some concentrated effort.
-
----
 template: jaamvp
 
 --
@@ -1133,11 +1063,11 @@ I know what you're thinking. If anybody can make a battery pack, how does this h
 
 ---
 
-# Step 2: Rust Commerical Network
+# Step 2: Rust Commercial Network
 
 ???
 
-The answer to that comes from the Rust Foundation. Lori Lorusso has been working to organize something called the Rust Commerical Network. The idea is to get together Rust users across domains and to help them co-organize. And one thing I imagine them doing is designing battery packs for their respective domains.
+The answer to that comes from the Rust Foundation. Lori Lorusso has been working to organize something called the Rust Commercial Network. The idea is to get together Rust users across domains and to help them co-organize. And one thing I imagine them doing is designing battery packs for their respective domains.
 
 So, for example, we might have one group for people building network services. They can collectively compare the libraries they are all using and issue a battery pack that covers those crates.
 
@@ -1196,7 +1126,7 @@ Fund your dependencies!
 
 ???
 
-The plan starts with the Rust Commerical Network I mentioned earlier. The idea is that when a given group designates a battery pack of common dependencies, that same group can start collecting funds from its members and others to fund those dependencies. They can also fund Foundation staff or contracting to help out with maintenance and feature development.
+The plan starts with the Rust Commercial Network I mentioned earlier. The idea is that when a given group designates a battery pack of common dependencies, that same group can start collecting funds from its members and others to fund those dependencies. They can also fund Foundation staff or contracting to help out with maintenance and feature development.
 
 For a company, this is a win-win. You get a quality library to build on, but you don't have to foot the entire cost, you share that cost with everyone else.
 
@@ -1262,7 +1192,7 @@ It's been a real pleasure speaking here today, and I want to give thanks to the 
 * Unblock the ecosystem with Just Add Async "MVP"
     * While also exploring foundations
 
-* Organize Rust users into the Rust Commerical Network
+* Organize Rust users into the Rust Commercial Network
     * Recommend Battery Packs per domain
 
 * Collect and focus sponsorship
