@@ -9,7 +9,7 @@ count: false
 ## If...we don't screw up.
 
 .me[.grey[*by* **Nicholas Matsakis**]]
-.left[.citation[View sl ides at `https://nikomatsakis.github.io/rusts-big-moment-2026/`]]
+.left[.citation[View slides at `https://nikomatsakis.github.io/rusts-big-moment-2026/`]]
 
 ---
 
