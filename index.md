@@ -1250,3 +1250,7 @@ It's been a real pleasure speaking here today, and I want to give thanks to the 
 * Collect and focus sponsorship
     * On the core Rust project for maintenance and goals
     * And on the ecosystem
+
+--
+* Oh and...
+    * Go watch My Cousin Vinny!
