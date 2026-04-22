@@ -281,6 +281,8 @@ The thing is, all of that is about to change.
 
 # Agents are changing the game
 
+.p80[![Mind Blown](./images/mind-blown.gif)]
+
 ???
 
 Unless you've been under a rock, and even if you have been, you've probably heard a bit about AI. You've probably heard a LOT, and a lot of it is nonsense.
@@ -321,7 +323,9 @@ We're used to this world, where computers are great at calculations, but the onl
 
 LLMs are different. They actually stink at calculations. Don't ask your LLM to add numbers. But they are natives with probability, and they can attack ambiguous problems with a lot of success.
 
-In some sense, what we asked for was a smarter computer. What we got was more like an inexperienced human. Just like an intern, say, or a new hire, LLMs don't have a lot of context -- pun intended. But they can still be very effective.
+In some sense, what we asked for was a smarter computer. What we got was more like an inexperienced human. Kind of an arrogant, inexperienced human. "Mansplaining as a service" was one of my favorite characterizations.
+
+LLMs don't have a lot of context -- pun intended. But they can still be very effective.
 
 ---
 
@@ -362,6 +366,10 @@ You don't have to take it from me though, here's the co-founder and president of
 # AI is coming
 
 .center[.p80[![It is a fact](./images/its-a-fact.gif)]]
+
+.footnote[
+    Not everybody in the Rust community feels this way. But I do.
+]
 
 ???
 
@@ -599,7 +607,7 @@ fn foo<P: MessageProcessor>(processor: &P) {
 
 .arrow.abspos.top98.left200.rotate135[![Arrow](images/Arrow.png)]
 
-.abspos.top95.left237.purple.small[With generics, we have one copy of the fn per type]
+.abspos.top95.left237.purple[With generics, we have one copy of the fn per type]
 
 ???
 
@@ -609,7 +617,7 @@ So we start with a generic function. In Rust, when you have a generic function, 
  
 .arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
 
-.abspos.top257.left375.purple.small[
+.abspos.top257.left375.purple[
     and so we know which<br>function you are awaiting.<br><br>
     We need that to know how much<br>
     stack space you need.
@@ -635,13 +643,13 @@ fn foo(processor: &dyn MessageProcessor) {
 
 .arrow.abspos.top100.left256.rotate135[![Arrow](images/Arrow.png)]
 
-.abspos.top91.left298.purple.small[But with dyn, you get one copy of the fn<br>for *all* types]
+.abspos.top91.left298.purple[But with dyn, you get one copy of the fn for *all* types]
 
 --
 
 .arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
 
-.abspos.top257.left375.purple.small[And so we don't know how<br>space to put on the stack!]
+.abspos.top257.left375.purple[And so we don't know how<br>space to put on the stack!]
 
 ---
 
@@ -819,10 +827,11 @@ fn foo<P: MessageProcessor>(processor: &P) {
  
 .arrow.abspos.top196.left436.rotate270[![Arrow](images/Arrow.png)]
 
-.abspos.top257.left375.purple.small[
+.abspos.top257.left375.purple[
     As before, we know which<br>
     function you are awaiting<br>
-    and hence how much stack space you need.
+    and hence how much stack space<br>
+    you need.
 ]
 
 ???
@@ -845,7 +854,7 @@ fn foo(processor: &dyn MessageProcessor) {
 
 .arrow.abspos.top196.left427.rotate270[![Arrow](images/Arrow.png)]
 
-.abspos.top238.left375.purple.small[
+.abspos.top238.left375.purple[
     Put the future onto the heap,<br>
     so it doesn't matter how big it is.
 ]
@@ -959,7 +968,7 @@ Talking about ecosystem, that brings us to the next point in our challenges: the
 
 # There's a crate for that
 
-> The crate ecosystem combined with the stability guarantees and the semantic versioning mean that it's the best grab and go ecosystem I've ever seen.<br>
+> The crate ecosystem combined with the stability guarantees and the semantic versioning mean that **it's the best grab and go ecosystem I've ever seen**.<br>
 > <br>
 > &mdash; Computer science professor and programming language designer
 
@@ -976,7 +985,7 @@ crates.io currently has a wealth of crates across a bunch of different areas.
 
 ## ...but how do I find it?
 
-> The crates to use are sort of undiscoverable. There's a layer of tacit knowledge about what crates to use for specific things that you kind of gather through experience and through difficulty. Everyone's doing all of their research.<br>
+> The crates to use are sort of undiscoverable. **There's a layer of tacit knowledge about what crates to use for specific things** that you kind of gather through experience and through difficulty. Everyone's doing all of their research.<br>
 > <br>
 > &mdash; Web developer and conference speaker working on developer frameworks
 
@@ -990,13 +999,19 @@ As Rust usage grows, more and more new adopters are citing choosing dependencies
 
 # Getting started is easy
 
+.p80[![Mona](./images/mona-proud.gif)]
+
 ???
 
 Another reason that a small standard library has been good for Rust is that it opened the floodgates to people who want to build their own libraries. This let us build out a much more full-featured -- and, frankly, much higher *quality* set of libraries than would have been possible if we'd tried to centralize everything into the standard library. As an open-source project, there's also a constant risk of overextending ourselves, and taking on more surface area than we can reliably maintain.
 
---
+---
+
+# Getting started is easy
 
 ## Long-term maintenance is hard
+
+.p80[![Mona](./images/mona-sitting-grouchy.gif)]
 
 ???
 
@@ -1081,6 +1096,12 @@ cargo bp ls
 # Let's watch
 
 <div id="demo"></div>
+
+---
+
+# Beyond CLIs
+
+.p80.center[![CI Battery Pack](./images/ci-battery-pack-pr.png)]
 
 ---
 
